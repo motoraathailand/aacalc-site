@@ -22,8 +22,25 @@
     if (desc) { metaSet('meta[name=description]', desc); metaSet('meta[property="og:description"]', desc); metaSet('meta[name="twitter:description"]', desc); }
     var sel = $('#lang'); if (sel) sel.value = lang;
     if (explicit) $$('a[data-int]').forEach(function (a) { var h = a.getAttribute('data-href') || a.getAttribute('href'); a.setAttribute('data-href', h); var p = h.split('#'), q = p[0].replace(/[?&]lang=\w+/, ''); a.setAttribute('href', q + (q.indexOf('?') < 0 ? '?' : '&') + 'lang=' + lang + (p[1] ? '#' + p[1] : '')); });
+    $$('img[data-shot]').forEach(function (e) { var u = 'assets/img/play/' + lang + '-' + e.getAttribute('data-shot') + '.webp'; if (e.getAttribute('src') !== u) e.setAttribute('src', u); });
+    media();
     if (typeof window.onSitePaint === 'function') window.onSitePaint(lang);
   }
+  // Promo video (intro): Thai / Korean / English version (zh, hi use English). Autoplay muted loop; paused while off screen; with reduced motion it stays a still poster with controls.
+  var vid = $('#promo'), vidKey = '';
+  function media() {
+    if (!vid) return;
+    var k = lang === 'th' || lang === 'ko' ? lang : 'en', first = !vidKey;
+    if (k !== vidKey) {
+      vidKey = k; var u = 'assets/video/promo-' + k + '.mp4';
+      if (!(vid.getAttribute('src') || '').endsWith(u)) { vid.setAttribute('poster', 'assets/img/poster-' + k + '.webp'); vid.setAttribute('src', u); vid.load(); }
+    }
+    if (M && M.reduced()) { vid.removeAttribute('autoplay'); vid.pause(); vid.controls = true; return; }
+    vid.muted = true; if (!first || vid.paused) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); }
+  }
+  if (vid && 'IntersectionObserver' in window) new IntersectionObserver(function (es) { es.forEach(function (x) { if (M && M.reduced()) return; if (x.isIntersecting) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } else vid.pause(); }); }, { threshold: .15 }).observe(vid);
+  // count-up for the numbers strip, once, when it scrolls into view (real text is already the final value)
+  if ('IntersectionObserver' in window && M) { var cio = new IntersectionObserver(function (es) { es.forEach(function (x) { if (!x.isIntersecting) return; cio.unobserve(x.target); M.roll(x.target, 0, parseFloat(x.target.getAttribute('data-count')), function (v) { return String(Math.round(v)); }, 700); }); }, { threshold: .6 }); $$('[data-count]').forEach(function (e) { cio.observe(e); }); }
   function setLang(l, fade) {
     if (LANGS.indexOf(l) < 0) return; lang = l; explicit = true;
     try { localStorage.setItem(KEY, l); } catch (e) {}

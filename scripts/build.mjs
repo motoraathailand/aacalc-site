@@ -5,10 +5,11 @@ import fs from 'node:fs'; import path from 'node:path'; import { fileURLToPath }
 import qrcode from './qrcode.mjs';
 import { INTRO, JOIN } from '../src/strings.mjs';
 import { LANGS, SOCIAL, makeContent } from '../src/content.mjs';
-const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'), SRC = path.join(ROOT, 'src'), OUT = path.join(ROOT, 'docs');
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..'), SRC = path.join(ROOT, 'src'), OUT = process.env.SITE_OUT ? path.resolve(process.env.SITE_OUT) : path.join(ROOT, 'docs');
 const cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'config/site.json'), 'utf8'));
 for (const k of ['siteUrl', 'packageName', 'groupEmail', 'groupUrl', 'optInUrl', 'installUrl', 'contactEmail', 'operator', 'policyDate']) if (!cfg[k]) throw new Error('config/site.json: missing ' + k);
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const live = process.env.OPTIN_LIVE ? process.env.OPTIN_LIVE === '1' : !!cfg.optInLive;
 const L = LANGS.map((x) => x[0]), SITE = cfg.siteUrl;
 // ---- completeness: every language has every key / section ----
 for (const [name, D] of [['INTRO', INTRO], ['JOIN', JOIN]]) { const keys = Object.keys(D.en); for (const l of L) { if (!D[l]) throw new Error(name + ' lacks ' + l); const miss = keys.filter((k) => !(k in D[l]) || !String(D[l][k]).trim() && D.en[k]); if (miss.length) throw new Error(name + '.' + l + ' misses ' + miss.join()); } }
@@ -16,7 +17,7 @@ const C = makeContent({ OPERATOR: cfg.operator, EMAIL: cfg.contactEmail, UPDATED
 for (const name of ['PRIVACY']) for (const l of L) { if (!C[name][l]) throw new Error(name + ' lacks ' + l); if (C[name][l].length !== C[name].en.length) throw new Error(name + '.' + l + ' has ' + C[name][l].length + ' sections, en has ' + C[name].en.length); }
 const I = INTRO, J = JOIN;
 // ---- helpers ----
-const ICON = { calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.500 7.500h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/>', ruler: '<path d="M3.500 15.500l12-12 5 5-12 12zM8 11l2.500 2.500M11 8l2.500 2.500M5.500 13.500L7 15"/>', coin: '<circle cx="12" cy="12" r="9"/><path d="M14.800 9c-.4-1-1.400-1.500-2.800-1.500-1.700 0-2.800.8-2.800 2s1 1.700 2.800 2 2.800.8 2.800 2-1.100 2-2.800 2c-1.500 0-2.500-.6-2.900-1.600M12 5.800v1.700M12 16.500v1.700"/>', offline: '<path d="M2 8.800a15 15 0 0 1 20 0M5 12.500a10 10 0 0 1 14 0M8.500 16a5 5 0 0 1 7 0M12 19.500h.01M3 3l18 18"/>', restore: '<path d="M3 12a9 9 0 1 0 3-6.700L3 8M3 3v5h5M12 7.500V12l3 2"/>', globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.200 3 14.800 0 18M12 3c-3 3.200-3 14.800 0 18"/>' };
+const ICON = { calc: '<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8.500 7.500h7M9 12h.01M12 12h.01M15 12h.01M9 16h.01M12 16h.01M15 16h.01"/>', ruler: '<path d="M3.500 15.500l12-12 5 5-12 12zM8 11l2.500 2.500M11 8l2.500 2.500M5.500 13.500L7 15"/>', coin: '<circle cx="12" cy="12" r="9"/><path d="M14.800 9c-.4-1-1.400-1.500-2.800-1.500-1.700 0-2.800.8-2.800 2s1 1.700 2.800 2 2.800.8 2.800 2-1.100 2-2.800 2c-1.500 0-2.500-.6-2.900-1.600M12 5.800v1.700M12 16.500v1.700"/>', offline: '<path d="M2 8.800a15 15 0 0 1 20 0M5 12.500a10 10 0 0 1 14 0M8.500 16a5 5 0 0 1 7 0M12 19.500h.01M3 3l18 18"/>', restore: '<path d="M3 12a9 9 0 1 0 3-6.700L3 8M3 3v5h5M12 7.500V12l3 2"/>', download: '<path d="M12 4v11M7.500 10.500L12 15l4.500-4.500M5 19.500h14"/>', nologin: '<rect x="5" y="11" width="14" height="9" rx="2.500"/><path d="M8 11V8a4 4 0 0 1 7.500-2"/>', free: '<path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.500" cy="8.500" r="1"/>', moon: '<path d="M20 14.500A8 8 0 0 1 9.500 4a8 8 0 1 0 10.500 10.500z"/>', globe: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.200 3 14.800 0 18M12 3c-3 3.200-3 14.800 0 18"/>' };
 const svg = (n) => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICON[n]}</svg>`;
 const attr = (tag, key, extra = '', dict = I) => `<${tag} data-t="${key}"${extra ? ' ' + extra : ''}>${esc(dict.en[key])}</${tag}>`;
 const LOGO = `<a class="logo" href="index.html" data-int aria-label="AA Calc"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2cc386"/><stop offset="1" stop-color="#1fa86b"/></linearGradient></defs><rect width="64" height="64" rx="15" fill="url(#lg)"/><g stroke="#fff" stroke-width="5.400" stroke-linecap="round" fill="none"><path d="M20.600 13.600v14M13.600 20.600h14M36.500 20.500h14M15.500 38.300l10.200 10.200M25.700 38.300L15.500 48.500M36.500 39.200h14M36.500 47.700h14"/></g></svg><span>AA Calc</span></a>`;
@@ -39,10 +40,13 @@ function shell({ page, file, title, desc, body, dictKey = 'intro', jsonld = '' }
 <meta name="theme-color" content="#0d2a1e">
 <meta name="color-scheme" content="light dark">
 <link rel="canonical" href="${url}">
-<meta property="og:type" content="website"><meta property="og:site_name" content="AA Calc">
-<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/assets/img/og.jpg">
-<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}"><meta name="twitter:image" content="${SITE}/assets/img/og.jpg">
-<link rel="icon" href="assets/icon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="AA Calc"><meta property="og:locale" content="en_US">${LANGS.filter(([l]) => l !== 'en').map(([l]) => `<meta property="og:locale:alternate" content="${SOCIAL[l]}">`).join('')}
+<meta property="og:title" content="${esc(title)}"><meta property="og:description" content="${esc(desc)}"><meta property="og:url" content="${url}"><meta property="og:image" content="${SITE}/assets/img/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="AA Calc: offline calculator with currency and unit converter">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="${esc(title)}"><meta name="twitter:description" content="${esc(desc)}"><meta name="twitter:image" content="${SITE}/assets/img/og.jpg"><meta name="twitter:image:alt" content="AA Calc: offline calculator with currency and unit converter">
+<link rel="alternate" hreflang="x-default" href="${url}">${LANGS.map(([l]) => `<link rel="alternate" hreflang="${l === 'zh' ? 'zh-Hans' : l}" href="${url}?lang=${l}">`).join('')}
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml"><link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32"><link rel="icon" href="assets/img/icon-192.png" type="image/png" sizes="192x192"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+${jsonld}
 ${HEAD_SCRIPT}
 <link rel="stylesheet" href="assets/motion.css">
 <link rel="stylesheet" href="assets/site.css">
@@ -57,75 +61,121 @@ ${body}
 `;
 }
 // ---- intro (index.html) ----
-const features = [['calc', 'f1'], ['ruler', 'f2'], ['coin', 'f3'], ['offline', 'f4'], ['restore', 'f5'], ['globe', 'f6']];
+const shotN = (n) => `assets/img/play/en-${n}.webp`;
+const photo = (n, i = 0, alt = 'alt' + n) => `<img data-shot="${n}" src="${shotN(n)}" width="480" height="853" loading="lazy" decoding="async" alt="${esc(I.en[alt])}" data-alt="${alt}"${i ? ` style="--i:${i}"` : ''}>`;
+const JOINBTN = (key, extra = '') => `<a class="btn" data-press data-ripple data-int href="join.html"><svg viewBox="0 0 24 24" aria-hidden="true">${ICON.download}</svg><span data-t="${key}">${esc(I.en[key])}</span></a>`;
+const showcase = [['coin', 'cur', 3], ['ruler', 'unit', 2], ['calc', 'calc', 1]];
+const perks = [['offline', 'pk1'], ['nologin', 'pk2'], ['restore', 'pk3'], ['globe', 'pk4'], ['free', 'pk5'], ['moon', 'pk6']];
+const stats = [[24, 'stat1'], [6, 'stat2'], [5, 'stat3'], [0, 'stat4']];
 const indexBody = `${HEADER(I)}
 <main id="main">
 <section class="hero"><div class="wrap hero-in">
-  <div>
+  <div class="hero-copy" data-stagger="70">
     ${attr('p', 'eyebrow', 'class="eyebrow"')}
     ${attr('h1', 'h1')}
     ${attr('p', 'lead', 'class="lead"')}
-    <div class="cta"><a class="btn" data-press data-ripple data-int href="join.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg><span data-t="ctaJoin">${esc(I.en.ctaJoin)}</span></a><a class="btn ghost" data-press data-ripple href="#features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg><span data-t="ctaMore">${esc(I.en.ctaMore)}</span></a></div>
-    <ul class="chips" data-stagger>${['chip1', 'chip2', 'chip3'].map((k) => attr('li', k)).join('')}</ul>
+    <div class="cta">${JOINBTN('ctaJoin')}<a class="btn ghost" data-press data-ripple href="#features"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg><span data-t="ctaMore">${esc(I.en.ctaMore)}</span></a></div>
+    <p class="ctanote"><i class="dot" aria-hidden="true"></i><span data-t="ctaNote">${esc(I.en.ctaNote)}</span></p>
+    <ul class="chips">${['chip1', 'chip2', 'chip3', 'chip4'].map((k) => attr('li', k)).join('')}</ul>
   </div>
-  <figure class="hero-shot"><img src="assets/img/hero.webp" width="1200" height="960" alt="${esc(I.en.shotAlt)}" data-alt="shotAlt" fetchpriority="high">${attr('figcaption', 'shotCap')}</figure>
+  <figure class="hero-media"><div class="phone"><video id="promo" class="promo" width="540" height="960" autoplay muted loop playsinline preload="metadata" aria-label="${esc(I.en.videoLabel)}" data-aria="videoLabel"></video></div></figure>
+  <script>/* the promo is chosen by the language the head script already picked (th, ko; everything else uses the English one), so only one video is ever requested */(function(){var v=document.getElementById('promo'),l=window.__L,k=l==='ko'||l==='th'?l:'en';if(v){v.setAttribute('poster','assets/img/poster-'+k+'.webp');v.src='assets/video/promo-'+k+'.mp4'}})();</script><noscript><style>.promo{display:none}.phone::after{content:"";display:block;aspect-ratio:9/16;border-radius:29px;background:url(assets/img/poster-en.webp) center/cover}</style></noscript>
 </div></section>
+<section class="stats" aria-label="AA Calc"><div class="wrap"><ul class="stat-row">${stats.map(([n, k], i) => `<li data-reveal style="--i:${i}"><b data-count="${n}">${n}</b>${attr('span', k)}</li>`).join('')}</ul></div></section>
 <section class="s" id="features"><div class="wrap">
-  ${attr('h2', 'featH')}
-  <ul class="grid">${features.map(([ic, k], n) => `<li class="card" data-reveal style="--i:${n % 3}"><div class="ic">${svg(ic)}</div>${attr('h3', k + 't')}${attr('p', k + 'd')}</li>`).join('')}</ul>
+  ${attr('h2', 'featH')}${attr('p', 'featD', 'class="sub"')}
+  <div class="shows">${showcase.map(([ic, k, n], i) => `<article class="show${i % 2 ? ' rev' : ''}">
+    <div class="show-txt" data-reveal><div class="ic">${svg(ic)}</div>${attr('h3', k + 'T')}${attr('p', k + 'D')}<ul class="ticks">${[1, 2, 3].map((x) => attr('li', k + x)).join('')}</ul></div>
+    <figure class="show-img" data-reveal style="--i:2"><div class="glow" aria-hidden="true"></div>${photo(n)}</figure>
+  </article>`).join('')}</div>
+</div></section>
+<section class="s"><div class="wrap">
+  ${attr('h2', 'perksH')}
+  <ul class="grid">${perks.map(([ic, k], n) => `<li class="card" data-reveal style="--i:${n % 3}"><div class="ic">${svg(ic)}</div>${attr('h3', k + 't')}${attr('p', k + 'd')}</li>`).join('')}</ul>
 </div></section>
 <section class="s"><div class="wrap">
   ${attr('h2', 'shotsH')}${attr('p', 'shotsD', 'class="sub"')}
-  <div class="shots"><figure data-reveal><img src="assets/img/shot-th.webp" width="390" height="844" loading="lazy" alt="${esc(I.en.g1Alt)}" data-alt="g1Alt"></figure><figure data-reveal style="--i:1"><img src="assets/img/shot-ko.webp" width="390" height="844" loading="lazy" alt="${esc(I.en.g2Alt)}" data-alt="g2Alt"></figure><figure data-reveal style="--i:2"><img src="assets/img/shot-hi.webp" width="390" height="844" loading="lazy" alt="${esc(I.en.g3Alt)}" data-alt="g3Alt"></figure><figure data-reveal style="--i:3"><img src="assets/img/shot-dark.webp" width="390" height="844" loading="lazy" alt="${esc(I.en.g4Alt)}" data-alt="g4Alt"></figure></div>
+  <div class="shots">${[4, 5, 6].map((n, i) => `<figure data-reveal style="--i:${i}">${photo(n)}</figure>`).join('')}</div>
 </div></section>
 <section class="band"><div class="wrap narrow">
   ${attr('h2', 'trustH')}
   <ul class="trust">${['trust1', 'trust2', 'trust3', 'trust4'].map((k) => attr('li', k)).join('')}</ul>
   <p style="margin-top:16px"><a href="privacy.html" data-int data-t="trustLink">${esc(I.en.trustLink)}</a></p>
 </div></section>
+<section class="s" id="how"><div class="wrap narrow">
+  ${attr('h2', 'howH')}${attr('p', 'howD', 'class="sub"')}
+  <ol class="how">${[1, 2, 3, 4, 5].map((n) => `<li data-reveal style="--i:${n % 4}"><span class="n" aria-hidden="true">${n}</span>${attr('span', 'hw' + n, 'class="t"')}</li>`).join('')}</ol>
+  <div class="center">${JOINBTN('howB')}</div>
+</div></section>
+<section class="s" id="faq"><div class="wrap narrow">
+  ${attr('h2', 'faqH')}
+  <div class="faqs">${[1, 2, 3, 4, 5, 6, 7, 8].map((n) => `<details><summary data-t="fq${n}">${esc(I.en['fq' + n])}</summary><p data-t="fa${n}">${esc(I.en['fa' + n])}</p></details>`).join('')}</div>
+</div></section>
 <section class="joincta"><div class="wrap">
   ${attr('h2', 'joinH')}${attr('p', 'joinD')}
-  <a class="btn" data-press data-ripple data-int href="join.html"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" x2="19" y1="8" y2="14"/><line x1="22" x2="16" y1="11" y2="11"/></svg><span data-t="joinB">${esc(I.en.joinB)}</span></a>
+  ${JOINBTN('joinB')}
 </div></section>
 </main>
 ${FOOTER(I, 'made')}`;
 // ---- join (join.html) ----
-const live = !!cfg.optInLive;
-const stepIcon = { 1: '<circle cx="9" cy="9" r="3.200"/><circle cx="17" cy="10" r="2.400"/><path d="M3.500 19c0-3.300 2.500-5.500 5.500-5.500s5.500 2.200 5.500 5.500M15 15c3-.6 5.500 1 5.500 4"/>', 2: '<path d="M12 3l2.600 5.300 5.800.8-4.200 4.100 1 5.800L12 16.300 6.800 19l1-5.800L3.600 9.100l5.800-.8z"/>', 3: '<path d="M12 4v11M7.500 10.500L12 15l4.500-4.500M5 19.500h14"/>' };
-const stepCard = (n, href, locked) => `<li class="step" id="c${n}" data-step="${n}"${locked ? ' data-locked' : ''}>
+// optInLive (config/site.json) is THE switch: false = steps 3-4 dimmed + "Coming soon" + note; true = they are real links. Env OPTIN_LIVE=1/0 overrides it (tests only).
+const stepIcon = {
+  1: '<circle cx="9" cy="9" r="3.200"/><circle cx="17" cy="10" r="2.400"/><path d="M3.500 19c0-3.300 2.500-5.500 5.500-5.500s5.500 2.200 5.500 5.500M15 15c3-.6 5.500 1 5.500 4"/>',
+  2: '<circle cx="12" cy="8" r="3.600"/><path d="M5 20c.8-3.600 3.700-5.600 7-5.600s6.200 2 7 5.600"/>',
+  3: '<path d="M12 3l2.600 5.300 5.800.8-4.200 4.100 1 5.800L12 16.300 6.800 19l1-5.800L3.600 9.100l5.800-.8z"/>',
+  4: ICON.download,
+  5: '<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/>' };
+const ARROW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>';
+function stepCard(n, { href, locked, extra = '', action = 'link' }) {
+  const bKey = 's' + n + 'b' + (locked ? 'Soon' : '');
+  const act = action === 'link'
+    ? `<a class="btn" data-press data-ripple data-go="${n}" data-url="${esc(href)}" href="${locked ? '#pend' : esc(href)}" ${locked ? 'aria-disabled="true"' : 'target="_blank" rel="noopener"'}>${ARROW}<span data-t="${bKey}">${esc(J.en[bKey])}</span></a>`
+    : action === 'ack' ? `<button class="btn" type="button" data-press data-ripple data-ack="${n}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg><span data-t="s${n}b">${esc(J.en['s' + n + 'b'])}</span></button>` : '';
+  return `<li class="step${action === 'none' ? ' noact' : ''}" id="c${n}" data-step="${n}"${locked ? ' data-locked' : ''}>
       <div class="pic" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false">${stepIcon[n]}</svg></div>
       <div class="body">
-        <div class="head"><button class="num" type="button" data-press data-chk="${n}"><span>${n}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></button>${attr('h2', 's' + n + 't', '', J)}${n === 1 ? '' : ''}</div>
+        <div class="head"><button class="num" type="button" data-press data-chk="${n}"><span>${n}</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg></button>${attr('h2', 's' + n + 't', '', J)}${locked ? attr('em', 'badgeSoon', 'class="chip"', J) : ''}</div>
         ${attr('p', 's' + n + 'd', 'class="desc"', J)}
-        <a class="btn" data-press data-ripple data-go="${n}" href="${esc(href)}" target="_blank" rel="noopener"${locked ? ' aria-disabled="true"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M9 7h8v8"/></svg>${attr('span', 's' + n + 'b', '', J)}</a>
+        ${extra}${act}
       </div>
     </li>`;
+}
+const COPYIC = '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2.500"/><path d="M5 15V6.500A2.500 2.500 0 0 1 7.500 4H15"/></svg>';
+const x1 = `<div class="addr"><span class="lab" data-t="emailLabel">${esc(J.en.emailLabel)}</span><code>${esc(cfg.groupEmail)}</code><button type="button" class="mini" id="copyEmail" data-press>${COPYIC}<span data-t="copyEmail">${esc(J.en.copyEmail)}</span></button></div>`;
+const x2 = `<details class="how2"><summary data-t="s2how">${esc(J.en.s2how)}</summary><ul>${[1, 2, 3].map((k) => attr('li', 's2c' + k, '', J)).join('')}</ul></details>`;
+const x5 = `<div class="days" id="days"><ol class="dots" aria-hidden="true">${Array.from({ length: 14 }, (_, i) => `<li style="--i:${Math.min(i, 10)}"></li>`).join('')}</ol><p class="daytxt" id="dayTxt" aria-live="polite"></p></div>`;
 const q = qrcode(0, 'M'); q.addData(SITE + '/join.html'); q.make(); const qn = q.getModuleCount(), qz = 2; let qd = '';
 for (let r = 0; r < qn; r++) for (let c = 0; c < qn; c++) if (q.isDark(r, c)) qd += `M${c + qz} ${r + qz}h1v1h-1z`;
 const qrSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${qn + 2 * qz} ${qn + 2 * qz}" shape-rendering="crispEdges"><rect width="100%" height="100%" fill="#fff"/><path d="${qd}" fill="#17150f"/></svg>\n`;
+const stKey = live ? 'stLive' : 'stPend';
 const joinBody = `${HEADER(J)}
 <main id="main">
-<section class="jhero"><div class="wrap narrow">
+<section class="jhero"><div class="wrap narrow" data-stagger="60">
   ${attr('h1', 'h1', '', J)}
+  ${attr('p', 'sub', 'class="sub"', J)}
+  <p class="status${live ? ' on' : ''}" id="status" role="status"><i class="dot" aria-hidden="true"></i><span data-t="${stKey}">${esc(J.en[stKey])}</span></p>
   <div class="gmail" role="note"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M4 7.500l8 6 8-6"/></svg><div>${attr('b', 'gm', '', J)}${attr('span', 'gmD', '', J)}</div></div>
   <div class="iab" id="iab" role="alert" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7.500v5M12 16h.01"/></svg><div><b data-t="iabT">${esc(J.en.iabT)}</b><span data-t="iabD">${esc(J.en.iabD)}</span><div class="iabrow"><a class="btn" id="iabOpen" href="#" data-t="iabB">${esc(J.en.iabB)}</a><button type="button" class="btn ghost" id="iabCopy" data-t="iabC">${esc(J.en.iabC)}</button></div><small id="iabNote" aria-live="polite"></small></div></div>
   <div class="prog"><div class="bar" aria-hidden="true"><i id="barFill"></i></div><p id="progTxt" aria-live="polite"></p></div>
 </div></section>
 <section class="wrap narrow steps" id="steps">
   <ol class="cards" data-stagger>
-    ${stepCard(1, cfg.groupUrl, false)}
-    ${stepCard(2, cfg.optInUrl, !live)}
-    ${stepCard(3, cfg.installUrl, !live)}
+    ${stepCard(1, { href: cfg.groupUrl, locked: false, extra: x1 })}
+    ${stepCard(2, { action: 'ack', extra: x2 })}
+    ${stepCard(3, { href: cfg.optInUrl, locked: !live })}
+    ${stepCard(4, { href: cfg.installUrl, locked: !live })}
+    ${stepCard(5, { action: 'none', extra: x5 })}
   </ol>
   <p class="pend" id="pend" role="note"${live ? ' hidden' : ''} data-t="pend">${esc(J.en.pend)}</p>
-  <p class="remind" data-t="remH">${esc(J.en.remH)}</p>
   <div class="all" id="all" hidden role="status"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg><div>${attr('b', 'allT', '', J)}${attr('p', 'allD', '', J)}</div></div>
+  <div class="why" data-reveal><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/></svg><div>${attr('b', 'whyH', '', J)}${attr('p', 'whyD', '', J)}</div></div>
+  <div class="faq trouble"><h2 data-t="tH">${esc(J.en.tH)}</h2><div class="faqs">${[1, 2, 3, 4, 5, 6].map((n) => `<details id="t${n}"><summary data-t="tq${n}">${esc(J.en['tq' + n])}</summary><p data-t="ta${n}">${esc(J.en['ta' + n])}</p></details>`).join('')}</div></div>
   <div class="retry"><b data-t="retryH">${esc(J.en.retryH)}</b><p class="desc" data-t="retryD">${esc(J.en.retryD)}</p><button class="btn soft" id="reset" type="button" data-press><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg><span data-t="retryB">${esc(J.en.retryB)}</span></button></div>
   <div class="two">
     <div class="panel"><h2 data-t="shareH">${esc(J.en.shareH)}</h2><div class="row"><button class="btn" id="share" type="button" data-press data-ripple><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span data-t="share">${esc(J.en.share)}</span></button></div><p class="note" id="shareNote" aria-live="polite"></p></div>
-    <div class="panel qr"><h2 data-t="qrH">${esc(J.en.qrH)}</h2><p class="note" data-t="qrD">${esc(J.en.qrD)}</p><img src="assets/join-qr.svg" width="168" height="168" alt="${esc(J.en.qrAlt)}" data-alt="qrAlt"></div>
+    <div class="panel qr"><h2 data-t="qrH">${esc(J.en.qrH)}</h2><p class="note" data-t="qrD">${esc(J.en.qrD)}</p><img src="assets/join-qr.svg" width="168" height="168" loading="lazy" alt="${esc(J.en.qrAlt)}" data-alt="qrAlt"></div>
   </div>
-  <div class="faq"><h2 data-t="faqH">${esc(J.en.faqH)}</h2><div class="faqs">${[1, 2, 3, 4, 5, 6, 7].map((n) => `<details><summary data-t="q${n}">${esc(J.en['q' + n])}</summary><p data-t="a${n}">${esc(J.en['a' + n])}</p></details>`).join('')}</div></div>
+  <div class="faq"><h2 data-t="faqH">${esc(J.en.faqH)}</h2><div class="faqs">${[1, 2, 3, 4, 5].map((n) => `<details><summary data-t="q${n}">${esc(J.en['q' + n])}</summary><p data-t="a${n}">${esc(J.en['a' + n])}</p></details>`).join('')}</div></div>
 </section>
 </main>
 ${FOOTER(J, '')}`;
@@ -146,7 +196,8 @@ const priv = legal({ file: 'privacy.html', titleKey: 'privacyTitle', content: C.
 // ---- write ----
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(path.join(OUT, 'assets'), { recursive: true }); fs.mkdirSync(path.join(OUT, 'about'), { recursive: true });
 const W = (f, s) => fs.writeFileSync(path.join(OUT, f), s);
-W('index.html', shell({ page: 'index', file: 'index.html', title: I.en.title, desc: I.en.desc, body: indexBody }));
+const LD = { '@context': 'https://schema.org', '@type': 'MobileApplication', name: 'AA Calc', alternateName: 'AA Calc - Offline Currency', applicationCategory: 'UtilitiesApplication', operatingSystem: 'Android 7.0+', inLanguage: L, description: I.en.desc, url: SITE + '/', image: SITE + '/assets/img/og.jpg', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, author: { '@type': 'Person', name: cfg.operator } };
+W('index.html', shell({ page: 'index', file: 'index.html', title: I.en.title, desc: I.en.desc, body: indexBody, jsonld: `<script type="application/ld+json">${JSON.stringify(LD)}</script>` }));
 W('join.html', shell({ page: 'join', file: 'join.html', title: J.en.title, desc: J.en.desc, body: joinBody }));
 W('privacy.html', priv.html);
 W('about/index.html', `<!doctype html><html lang="en"><head><meta charset="utf-8"><title>AA Calc</title><meta name="robots" content="noindex"><link rel="canonical" href="${SITE}/"><meta http-equiv="refresh" content="0; url=../"><script>location.replace('../'+location.search+location.hash)</script></head><body><p><a href="../">AA Calc</a></p></body></html>\n`);
@@ -158,5 +209,6 @@ fs.writeFileSync(path.join(OUT, 'assets/strings.js'), '/* generated by scripts/b
 fs.writeFileSync(path.join(OUT, 'assets/join-qr.svg'), qrSvg);
 for (const f of ['site.css', 'site.js', 'join.js', 'icon.svg', 'motion.css', 'motion.js']) fs.copyFileSync(path.join(SRC, 'assets', f), path.join(OUT, 'assets', f));
 fs.mkdirSync(path.join(OUT, 'app'), { recursive: true }); for (const f of ['version.json']) { JSON.parse(fs.readFileSync(path.join(SRC, 'app', f), 'utf8')); fs.copyFileSync(path.join(SRC, 'app', f), path.join(OUT, 'app', f)); }   // the AA Calc app reads these two files (in-app update notice + notices/changelog)
+fs.cpSync(path.join(SRC, 'assets/video'), path.join(OUT, 'assets/video'), { recursive: true }); W('assets/site.webmanifest', JSON.stringify({ name: 'AA Calc', short_name: 'AA Calc', start_url: './', display: 'browser', background_color: '#0d2a1e', theme_color: '#0d2a1e', icons: [{ src: 'img/icon-192.png', sizes: '192x192', type: 'image/png' }] }) + '\n');
 fs.cpSync(path.join(SRC, 'assets/fonts'), path.join(OUT, 'assets/fonts'), { recursive: true }); fs.cpSync(path.join(SRC, 'assets/img'), path.join(OUT, 'assets/img'), { recursive: true });
-console.log(`built docs/: 3 pages x ${L.length} languages (${L.join(', ')}); optInLive=${live}; policy date ${cfg.policyDate}`);
+console.log(`built docs/: 3 pages x ${L.length} languages (${L.join(', ')}); optInLive=${live}${process.env.OPTIN_LIVE ? ' (env override)' : ''}; policy date ${cfg.policyDate}`);
