@@ -12,6 +12,7 @@ for (const f of ['index.html', 'join.html', 'privacy.html', '404.html', 'robots.
 ok('no delete-account page (no accounts in the app)', !fs.existsSync(path.join(DOCS, 'delete-account.html')));
 const all = ['index.html', 'join.html', 'privacy.html', 'assets/strings.js', 'assets/site.js', 'assets/join.js'].map(read).join('\n') + JSON.stringify(INTRO) + JSON.stringify(JOIN);
 ok('no leftover Moffee / cafe wording', !/moffee|cafemenu|coffee/i.test(all));
+ok('no Samsung / One UI wording in any language (owner rule 2026-11-01)', !/samsung|삼성|ซัมซุง|三星|सैमसंग|one ?ui/i.test(all + ['index.html', 'join.html', 'privacy.html'].map(read).join('') + JSON.stringify(C.PRIVACY)));
 ok('no old per-app group names', !/aaai-testers|nammanthuk-testers|moffee-testers|cafemenu-testers|suayshot-testers/.test(all));
 ok('config: shared tester group only', cfg.groupEmail === 'motoraa-testers@googlegroups.com' && cfg.groupUrl === 'https://groups.google.com/g/motoraa-testers');
 const idx = read('index.html'), join = read('join.html'), priv = read('privacy.html');
