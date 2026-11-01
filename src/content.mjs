@@ -1,0 +1,200 @@
+// Text of the privacy policy page, 5 languages. Edit here, then `node scripts/build.mjs`.
+// Written ONLY from what AA Calc really does (checked against /workspace/aacalc app-config.js, docs/HANDOVER.md and the Android manifest, v1.0.1):
+// no login, no account, no analytics; local storage only; rates request to open.er-api.com; Play In-App Update check; AdMob banner ads ONLY in the release (ads) build, none in the closed-test build.
+// Sections: [heading, [blocks]] where a block is a paragraph string, {ul:[...]} or {ol:[...]}. Never claim something the app does not do.
+export const LANGS = [['th', 'ไทย'], ['en', 'English'], ['ko', '한국어'], ['zh', '简体中文'], ['hi', 'हिन्दी']];
+export const SOCIAL = { th: 'th_TH', en: 'en_US', ko: 'ko_KR', zh: 'zh_CN', hi: 'hi_IN' };
+
+export function makeContent({ OPERATOR, EMAIL, UPDATED, SITE }) {
+  const UI = {
+    th: { updated: 'อัปเดตล่าสุด', privacyTitle: 'นโยบายความเป็นส่วนตัว', home: 'หน้าแรก', app: 'AA Calc' },
+    en: { updated: 'Last updated', privacyTitle: 'Privacy Policy', home: 'Home', app: 'AA Calc' },
+    ko: { updated: '최종 업데이트', privacyTitle: '개인정보 처리방침', home: '홈', app: 'AA Calc' },
+    zh: { updated: '最后更新', privacyTitle: '隐私政策', home: '首页', app: 'AA Calc' },
+    hi: { updated: 'अंतिम अपडेट', privacyTitle: 'गोपनीयता नीति', home: 'होम', app: 'AA Calc' },
+  };
+  const ADS = 'https://policies.google.com/technologies/ads';
+  const PRIVACY = {
+    en: [
+      ['Who we are', [`AA Calc (Android package com.motoraa.aacalc) is a calculator with a unit converter and a currency converter, made by ${OPERATOR} (“we”). Contact: ${EMAIL}. This policy says in plain words what the app and this website store and send.`]],
+      ['In short', [{ ul: [
+        'No login, no account, no sign-up. We do not ask for your name, email, phone number or location.',
+        'We collect no personal data. We run no server that receives data from the app, and the app contains no analytics, tracking or crash-reporting tools.',
+        'The app works offline. Your calculations, history and settings stay on your phone.',
+        'The only thing the app sends by itself is a plain request for exchange rates to open.er-api.com (see below).',
+        'The closed-test (testing) version has no ads. The released version shows small banner ads from Google AdMob (see “Ads”).'] }]],
+      ['What the app stores on your device', [{ ul: [
+        'Your calculation history (you can clear it in the app).',
+        'Your choices: language, light/dark theme, vibration on/off, the last screen you used (calculator, units or currency), the last unit category and unit pairs, and the last currency pair.',
+        'The last exchange-rate table that was downloaded and the time it was updated, so currency conversion keeps working offline. The app also contains a built-in rates snapshot.',
+        'Which version’s “What’s new” note you have already seen, and when you last postponed an update reminder.'] },
+        'All of this stays in the app’s private storage on your phone. Android’s cloud backup of the app is switched off. Uninstalling the app removes it.']],
+      ['Permissions the app asks for', [{ ul: [
+        'Internet and network state: only to fetch exchange rates, to look for a newer version of the app, and to open links (such as this policy) in your browser.',
+        'Vibration: a short tap feedback on the keys, which you can turn off in the menu.',
+        'The app asks for no location, camera, microphone, contacts, photos or storage permission.'] }]],
+      ['What leaves your device, and where it goes', [{ ul: [
+        'Exchange rates: when you open the currency screen and the saved rates are older than 6 hours, the app downloads a public rates table from open.er-api.com (Exchange Rate API, free plan). That is an ordinary web request: the server necessarily sees your IP address and the request itself, like any website, but the app sends no account, device ID or personal data. We do not receive it. See exchangerate-api.com for their terms. If you are offline, the app just keeps using the saved or built-in rates.',
+        'Update check: if you installed the app from Google Play, the app can ask Google Play (In-App Updates) whether a newer version exists. That is handled by Google Play on your phone under Google’s privacy policy. The app may also read a tiny public file (the newest version number) from this website, if we turn that on.',
+        'Feedback: “Send feedback” opens your own email app with a pre-filled message to ' + EMAIL + '. Nothing is sent unless you press send in your email app. You decide whether to include your address and device details.',
+        'Links: privacy policy and Google Play links open in your browser or the Play Store.'] }]],
+      ['Ads', [
+        'The closed-test (testing) version of AA Calc contains no ad code and shows no ads.',
+        'The released version shows banner ads only, served by Google AdMob (Google LLC). No full-screen, app-open or reward ads. Banners never appear on the calculator keypad.',
+        'To show and measure ads, Google AdMob may collect and use your Android advertising ID, IP address, device and app information and approximate region, under Google’s policies: ' + ADS + '. We do not receive or see this data and we do not share any personal data with advertisers ourselves.',
+        'You can reset your advertising ID or opt out of ad personalisation in Android settings (Settings > Google > Ads), and in some regions the app or Google may show a consent message first.']],
+      ['Children', ['AA Calc is a general-audience tool and is not directed at children under 13. We do not knowingly collect personal data from anyone, including children.']],
+      ['Your choices', [{ ul: [
+        'There is no account to delete and we hold no personal data about you. To remove everything the app stored, clear the history in the app or uninstall it.',
+        'You can use the app in airplane mode at any time.'] }]],
+      ['Security', ['Because the app stores everything only on your phone and collects nothing, the main protection is your phone’s own lock screen and encryption. Web traffic (rates, links, this website) uses HTTPS.']],
+      ['Changes to this policy', ['If something changes (for example a new feature), we will update this page and its date. The current version is always at ' + SITE + '/privacy.html.']],
+      ['Contact', [`Questions about privacy: ${EMAIL} (${OPERATOR}).`]],
+    ],
+    th: [
+      ['เราคือใคร', [`AA Calc (แพ็กเกจ Android com.motoraa.aacalc) คือเครื่องคิดเลขที่มีตัวแปลงหน่วยและตัวแปลงสกุลเงิน จัดทำโดย ${OPERATOR} (“เรา”) ติดต่อได้ที่ ${EMAIL} นโยบายนี้อธิบายด้วยภาษาง่าย ๆ ว่าแอปและเว็บไซต์นี้เก็บและส่งอะไรบ้าง`]],
+      ['สรุปสั้น ๆ', [{ ul: [
+        'ไม่ต้องล็อกอิน ไม่มีบัญชี ไม่ต้องสมัคร เราไม่ขอชื่อ อีเมล เบอร์โทร หรือตำแหน่งที่ตั้งของคุณ',
+        'เราไม่เก็บข้อมูลส่วนบุคคล ไม่มีเซิร์ฟเวอร์ของเราที่รับข้อมูลจากแอป และแอปไม่มีเครื่องมือวิเคราะห์ ติดตาม หรือรายงานข้อผิดพลาด',
+        'แอปใช้งานได้แบบออฟไลน์ การคำนวณ ประวัติ และการตั้งค่าอยู่ในมือถือของคุณเท่านั้น',
+        'สิ่งเดียวที่แอปส่งออกไปเองคือคำขออัตราแลกเปลี่ยนธรรมดาไปที่ open.er-api.com (ดูด้านล่าง)',
+        'เวอร์ชันทดสอบแบบปิดไม่มีโฆษณา ส่วนเวอร์ชันที่เปิดตัวจริงแสดงแบนเนอร์โฆษณาเล็ก ๆ จาก Google AdMob (ดูหัวข้อ “โฆษณา”)'] }]],
+      ['สิ่งที่แอปเก็บไว้ในเครื่องของคุณ', [{ ul: [
+        'ประวัติการคำนวณ (ล้างได้ในแอป)',
+        'ตัวเลือกของคุณ: ภาษา ธีมสว่าง/มืด เปิด/ปิดการสั่น หน้าจอที่ใช้ล่าสุด (เครื่องคิดเลข หน่วย หรือสกุลเงิน) หมวดหน่วยและคู่หน่วยล่าสุด และคู่สกุลเงินล่าสุด',
+        'ตารางอัตราแลกเปลี่ยนที่ดาวน์โหลดล่าสุดและเวลาที่อัปเดต เพื่อให้แปลงสกุลเงินได้แม้ออฟไลน์ นอกจากนี้ในแอปยังมีอัตราแลกเปลี่ยนชุดเริ่มต้นให้ด้วย',
+        'บันทึกว่าคุณเห็นหน้า “มีอะไรใหม่” ของเวอร์ชันไหนแล้ว และเวลาที่คุณกด “ไว้ทีหลัง” ของการแจ้งอัปเดตครั้งล่าสุด'] },
+        'ทั้งหมดนี้อยู่ในพื้นที่เก็บข้อมูลส่วนตัวของแอปบนมือถือคุณ การสำรองข้อมูลบนคลาวด์ของ Android สำหรับแอปนี้ปิดอยู่ และเมื่อถอนการติดตั้งแอป ข้อมูลเหล่านี้จะถูกลบ']],
+      ['สิทธิ์ที่แอปขอ', [{ ul: [
+        'อินเทอร์เน็ตและสถานะเครือข่าย: ใช้เพียงเพื่อดึงอัตราแลกเปลี่ยน ตรวจหาแอปเวอร์ชันใหม่ และเปิดลิงก์ (เช่นนโยบายนี้) ในเบราว์เซอร์',
+        'การสั่น: สั่นเบา ๆ เมื่อกดปุ่ม ปิดได้ในเมนู',
+        'แอปไม่ขอสิทธิ์ตำแหน่งที่ตั้ง กล้อง ไมโครโฟน รายชื่อติดต่อ รูปภาพ หรือพื้นที่เก็บข้อมูล'] }]],
+      ['อะไรออกจากเครื่องคุณบ้าง และไปที่ไหน', [{ ul: [
+        'อัตราแลกเปลี่ยน: เมื่อคุณเปิดหน้าสกุลเงินและอัตราที่บันทึกไว้เก่ากว่า 6 ชั่วโมง แอปจะดาวน์โหลดตารางอัตราแลกเปลี่ยนสาธารณะจาก open.er-api.com (Exchange Rate API แบบฟรี) นี่คือคำขอเว็บทั่วไป เซิร์ฟเวอร์ปลายทางย่อมเห็นที่อยู่ IP ของคุณและตัวคำขอ เหมือนเว็บไซต์ทั่วไป แต่แอปไม่ส่งบัญชี รหัสอุปกรณ์ หรือข้อมูลส่วนบุคคลใด ๆ และเราไม่ได้รับข้อมูลนั้น ดูเงื่อนไขได้ที่ exchangerate-api.com ถ้าออฟไลน์ แอปจะใช้อัตราที่บันทึกไว้หรืออัตราชุดเริ่มต้นต่อไป',
+        'ตรวจเวอร์ชันใหม่: ถ้าคุณติดตั้งจาก Google Play แอปอาจถาม Google Play (In-App Updates) ว่ามีเวอร์ชันใหม่ไหม ซึ่ง Google Play บนมือถือคุณเป็นผู้ดำเนินการภายใต้นโยบายความเป็นส่วนตัวของ Google และแอปอาจอ่านไฟล์สาธารณะเล็ก ๆ (หมายเลขเวอร์ชันล่าสุด) จากเว็บไซต์นี้ หากเราเปิดใช้',
+        'ข้อเสนอแนะ: “ส่งข้อเสนอแนะ” จะเปิดแอปอีเมลของคุณเองพร้อมข้อความที่เตรียมไว้ถึง ' + EMAIL + ' จะไม่มีอะไรถูกส่งจนกว่าคุณจะกดส่งในแอปอีเมล คุณเลือกเองว่าจะใส่อีเมลหรือรายละเอียดอุปกรณ์หรือไม่',
+        'ลิงก์: ลิงก์นโยบายความเป็นส่วนตัวและ Google Play จะเปิดในเบราว์เซอร์หรือ Play Store'] }]],
+      ['โฆษณา', [
+        'AA Calc เวอร์ชันทดสอบแบบปิดไม่มีโค้ดโฆษณาและไม่แสดงโฆษณา',
+        'เวอร์ชันที่เปิดตัวจริงแสดงเฉพาะแบนเนอร์โฆษณา ให้บริการโดย Google AdMob (Google LLC) ไม่มีโฆษณาเต็มจอ โฆษณาตอนเปิดแอป หรือโฆษณาแบบให้รางวัล และแบนเนอร์จะไม่แสดงบนแป้นกดของเครื่องคิดเลข',
+        'เพื่อแสดงและวัดผลโฆษณา Google AdMob อาจเก็บและใช้รหัสโฆษณา Android ที่อยู่ IP ข้อมูลอุปกรณ์และแอป และภูมิภาคโดยประมาณของคุณ ตามนโยบายของ Google: ' + ADS + ' เราไม่ได้รับหรือเห็นข้อมูลนี้ และเราไม่แชร์ข้อมูลส่วนบุคคลใดกับผู้ลงโฆษณาเอง',
+        'คุณรีเซ็ตรหัสโฆษณาหรือเลือกไม่รับโฆษณาที่ปรับตามความสนใจได้ในการตั้งค่า Android (การตั้งค่า > Google > โฆษณา) และในบางภูมิภาคแอปหรือ Google อาจแสดงข้อความขอความยินยอมก่อน']],
+      ['เด็ก', ['AA Calc เป็นเครื่องมือสำหรับผู้ใช้ทั่วไปและไม่ได้มุ่งเป้าไปที่เด็กอายุต่ำกว่า 13 ปี เราไม่เก็บข้อมูลส่วนบุคคลจากใครโดยเจตนา รวมถึงเด็ก']],
+      ['ตัวเลือกของคุณ', [{ ul: [
+        'ไม่มีบัญชีให้ลบ และเราไม่มีข้อมูลส่วนบุคคลของคุณ หากต้องการลบทุกอย่างที่แอปเก็บไว้ ให้ล้างประวัติในแอปหรือถอนการติดตั้งแอป',
+        'คุณใช้แอปในโหมดเครื่องบินได้ตลอดเวลา'] }]],
+      ['ความปลอดภัย', ['เนื่องจากแอปเก็บทุกอย่างไว้ในมือถือของคุณเท่านั้นและไม่เก็บข้อมูลใด ๆ ไปที่อื่น การป้องกันหลักจึงเป็นหน้าจอล็อกและการเข้ารหัสของมือถือคุณเอง การรับส่งข้อมูลบนเว็บ (อัตราแลกเปลี่ยน ลิงก์ เว็บไซต์นี้) ใช้ HTTPS']],
+      ['การเปลี่ยนแปลงนโยบาย', ['หากมีการเปลี่ยนแปลง (เช่นมีฟีเจอร์ใหม่) เราจะปรับหน้านี้และวันที่ เวอร์ชันล่าสุดอยู่ที่ ' + SITE + '/privacy.html เสมอ']],
+      ['ติดต่อเรา', [`คำถามเรื่องความเป็นส่วนตัว: ${EMAIL} (${OPERATOR})`]],
+    ],
+    ko: [
+      ['운영자', [`AA Calc(Android 패키지 com.motoraa.aacalc)은 단위 변환과 환율 변환이 들어 있는 계산기로, ${OPERATOR}(“저희”)가 만들었어요. 문의: ${EMAIL}. 이 방침은 앱과 이 웹사이트가 무엇을 저장하고 보내는지 쉬운 말로 설명해요.`]],
+      ['한눈에 보기', [{ ul: [
+        '로그인, 계정, 가입이 없어요. 이름, 이메일, 전화번호, 위치를 묻지 않아요.',
+        '개인정보를 수집하지 않아요. 앱에서 데이터를 받는 저희 서버가 없고, 앱에는 분석·추적·오류 보고 도구도 없어요.',
+        '앱은 오프라인에서 동작해요. 계산, 기록, 설정은 내 폰에만 있어요.',
+        '앱이 스스로 보내는 건 open.er-api.com에 환율을 요청하는 평범한 요청 하나뿐이에요(아래 참고).',
+        '비공개 테스트 버전에는 광고가 없어요. 정식 출시 버전에는 Google AdMob의 작은 배너 광고가 나와요(“광고” 참고).'] }]],
+      ['앱이 내 기기에 저장하는 것', [{ ul: [
+        '계산 기록(앱에서 지울 수 있어요).',
+        '내가 고른 설정: 언어, 라이트/다크 테마, 진동 켜기/끄기, 마지막에 쓴 화면(계산기·단위·환율), 마지막 단위 종류와 단위 쌍, 마지막 통화 쌍.',
+        '마지막으로 받은 환율표와 갱신 시각. 오프라인에서도 환율 변환이 되게 하기 위해서예요. 앱에는 기본 환율표도 들어 있어요.',
+        '어느 버전의 “새로 바뀐 점”을 이미 봤는지, 업데이트 알림을 마지막으로 “나중에” 한 시각.'] },
+        '이 모든 것은 폰 안의 앱 전용 저장 공간에만 있어요. 이 앱의 Android 클라우드 백업은 꺼져 있고, 앱을 삭제하면 함께 지워져요.']],
+      ['앱이 요청하는 권한', [{ ul: [
+        '인터넷 및 네트워크 상태: 환율을 받아오고, 새 버전을 확인하고, 링크(예: 이 방침)를 브라우저에서 여는 데만 써요.',
+        '진동: 키를 누를 때 짧은 촉각 반응이에요. 메뉴에서 끌 수 있어요.',
+        '위치, 카메라, 마이크, 연락처, 사진, 저장소 권한은 요청하지 않아요.'] }]],
+      ['기기 밖으로 나가는 것과 가는 곳', [{ ul: [
+        '환율: 환율 화면을 열었을 때 저장된 환율이 6시간보다 오래됐으면, open.er-api.com(Exchange Rate API 무료 플랜)에서 공개 환율표를 받아요. 평범한 웹 요청이라 다른 웹사이트처럼 서버는 내 IP 주소와 요청 자체를 볼 수밖에 없지만, 앱은 계정, 기기 ID, 개인정보를 보내지 않고 저희도 그 정보를 받지 않아요. 약관은 exchangerate-api.com에서 볼 수 있어요. 오프라인이면 저장된 환율이나 기본 환율표를 그대로 써요.',
+        '업데이트 확인: Google Play에서 설치했다면 앱이 Google Play(인앱 업데이트)에 새 버전이 있는지 물어볼 수 있어요. 이건 폰의 Google Play가 Google 개인정보처리방침에 따라 처리해요. 저희가 켜 두면 이 웹사이트의 아주 작은 공개 파일(최신 버전 번호)을 읽을 수도 있어요.',
+        '피드백: “피드백 보내기”는 내 메일 앱을 열고 ' + EMAIL + ' 앞으로 미리 쓴 메시지를 띄워요. 메일 앱에서 보내기를 누르기 전에는 아무것도 전송되지 않고, 내 주소나 기기 정보를 넣을지도 내가 정해요.',
+        '링크: 개인정보 처리방침과 Google Play 링크는 브라우저나 Play 스토어에서 열려요.'] }]],
+      ['광고', [
+        'AA Calc 비공개 테스트 버전에는 광고 코드가 없고 광고도 나오지 않아요.',
+        '정식 출시 버전에는 배너 광고만 나오며 Google AdMob(Google LLC)이 제공해요. 전면, 앱 실행, 보상형 광고는 없고, 계산기 키패드 화면에는 배너가 나오지 않아요.',
+        '광고를 보여 주고 성과를 측정하기 위해 Google AdMob은 Android 광고 ID, IP 주소, 기기·앱 정보, 대략적인 지역을 Google 정책에 따라 수집·사용할 수 있어요: ' + ADS + ' 저희는 이 데이터를 받거나 보지 못하고, 광고주에게 개인정보를 직접 공유하지도 않아요.',
+        'Android 설정(설정 > Google > 광고)에서 광고 ID를 재설정하거나 맞춤 광고를 끌 수 있고, 지역에 따라 앱이나 Google이 먼저 동의 안내를 보여 줄 수 있어요.']],
+      ['어린이', ['AA Calc은 일반 사용자를 위한 도구이며 만 13세 미만 어린이를 대상으로 하지 않아요. 어린이를 포함해 누구의 개인정보도 알면서 수집하지 않아요.']],
+      ['내 선택', [{ ul: [
+        '삭제할 계정이 없고 저희는 내 개인정보를 갖고 있지 않아요. 앱이 저장한 걸 모두 지우려면 앱에서 기록을 지우거나 앱을 삭제하세요.',
+        '비행기 모드에서도 언제든 쓸 수 있어요.'] }]],
+      ['보안', ['앱은 모든 것을 내 폰에만 저장하고 아무것도 수집하지 않으므로, 가장 중요한 보호는 폰 자체의 잠금 화면과 암호화예요. 웹 통신(환율, 링크, 이 웹사이트)은 HTTPS를 써요.']],
+      ['방침 변경', ['새 기능 등으로 내용이 바뀌면 이 페이지와 날짜를 고칠게요. 최신 버전은 항상 ' + SITE + '/privacy.html 에 있어요.']],
+      ['문의', [`개인정보 관련 문의: ${EMAIL} (${OPERATOR})`]],
+    ],
+    zh: [
+      ['我们是谁', [`AA Calc（Android 包名 com.motoraa.aacalc）是一款内置单位换算和汇率换算的计算器，由 ${OPERATOR}（“我们”）制作。联系方式：${EMAIL}。本政策用简单的话说明应用和本网站会保存和发送什么。`]],
+      ['简要说明', [{ ul: [
+        '无需登录、没有账号、无需注册。我们不会询问你的姓名、邮箱、电话或位置。',
+        '我们不收集个人数据。我们没有接收应用数据的服务器，应用中也没有分析、跟踪或崩溃上报工具。',
+        '应用可离线使用。你的计算、历史记录和设置只保存在你的手机里。',
+        '应用自己发出的唯一内容，是向 open.er-api.com 请求汇率的普通请求（见下文）。',
+        '封闭测试版没有广告。正式发布版会显示来自 Google AdMob 的小型横幅广告（见“广告”）。'] }]],
+      ['应用在你设备上保存的内容', [{ ul: [
+        '你的计算历史（可在应用中清除）。',
+        '你的选择：语言、浅色/深色主题、振动开关、上次使用的页面（计算器、单位或货币）、上次的单位类别和单位组合，以及上次的货币组合。',
+        '最近下载的汇率表及其更新时间，这样离线时也能换算货币。应用还内置了一份汇率快照。',
+        '你已经看过哪个版本的“新功能”说明，以及你上次推迟更新提醒的时间。'] },
+        '以上内容都只保存在手机上应用的私有存储中。本应用的 Android 云备份已关闭，卸载应用即会删除这些内容。']],
+      ['应用申请的权限', [{ ul: [
+        '网络和网络状态：仅用于获取汇率、检查应用新版本，以及在浏览器中打开链接（例如本政策）。',
+        '振动：按键时的轻微触感反馈，可在菜单中关闭。',
+        '应用不申请位置、相机、麦克风、通讯录、照片或存储权限。'] }]],
+      ['哪些内容会离开你的设备，去向哪里', [{ ul: [
+        '汇率：当你打开货币页面且已保存的汇率超过 6 小时，应用会从 open.er-api.com（Exchange Rate API 免费版）下载一份公开的汇率表。这是普通的网络请求，和访问任何网站一样，对方服务器必然会看到你的 IP 地址和请求本身，但应用不会发送账号、设备 ID 或任何个人数据，我们也不会收到。条款见 exchangerate-api.com。离线时，应用继续使用已保存或内置的汇率。',
+        '检查更新：如果你从 Google Play 安装，应用可能会向 Google Play（应用内更新）询问是否有新版本，这由你手机上的 Google Play 按 Google 隐私政策处理。如果我们启用，应用还可能从本网站读取一个很小的公开文件（最新版本号）。',
+        '反馈：“发送反馈”会打开你自己的邮件应用，并预填发往 ' + EMAIL + ' 的邮件。只有你在邮件应用里按发送才会发出，是否附上你的邮箱和设备信息由你决定。',
+        '链接：隐私政策和 Google Play 链接会在浏览器或 Play 商店中打开。'] }]],
+      ['广告', [
+        'AA Calc 封闭测试版不含广告代码，也不显示广告。',
+        '正式发布版只显示横幅广告，由 Google AdMob（Google LLC）提供。没有全屏、开屏或激励广告，横幅也不会出现在计算器键盘页面。',
+        '为了展示和衡量广告，Google AdMob 可能按 Google 的政策收集并使用你的 Android 广告 ID、IP 地址、设备和应用信息以及大致地区：' + ADS + ' 我们不会收到或看到这些数据，我们自己也不会向广告主分享任何个人数据。',
+        '你可以在 Android 设置（设置 > Google > 广告）中重置广告 ID 或关闭个性化广告；在部分地区，应用或 Google 可能会先显示同意提示。']],
+      ['儿童', ['AA Calc 是面向一般用户的工具，不面向 13 岁以下儿童。我们不会有意收集任何人（包括儿童）的个人数据。']],
+      ['你的选择', [{ ul: [
+        '没有账号可删除，我们也没有你的个人数据。要清除应用保存的全部内容，请在应用中清除历史记录或卸载应用。',
+        '你随时可以在飞行模式下使用应用。'] }]],
+      ['安全', ['由于应用只把内容保存在你的手机上且不收集任何数据，最主要的保护就是手机自身的锁屏和加密。网络通信（汇率、链接、本网站）使用 HTTPS。']],
+      ['政策变更', ['如有变化（例如新增功能），我们会更新本页及日期。最新版本始终在 ' + SITE + '/privacy.html。']],
+      ['联系我们', [`隐私相关问题：${EMAIL}（${OPERATOR}）`]],
+    ],
+    hi: [
+      ['हम कौन हैं', [`AA Calc (Android पैकेज com.motoraa.aacalc) यूनिट कन्वर्टर और करेंसी कन्वर्टर वाला कैलकुलेटर है, जिसे ${OPERATOR} (“हम”) ने बनाया है। संपर्क: ${EMAIL}। यह नीति सरल शब्दों में बताती है कि ऐप और यह वेबसाइट क्या सेव करते और भेजते हैं।`]],
+      ['संक्षेप में', [{ ul: [
+        'न लॉगिन, न खाता, न साइन-अप। हम आपका नाम, ईमेल, फ़ोन नंबर या लोकेशन नहीं माँगते।',
+        'हम कोई निजी डेटा इकट्ठा नहीं करते। ऐप से डेटा लेने वाला हमारा कोई सर्वर नहीं है, और ऐप में एनालिटिक्स, ट्रैकिंग या क्रैश-रिपोर्टिंग टूल नहीं हैं।',
+        'ऐप ऑफलाइन चलता है। आपकी गणनाएँ, हिस्ट्री और सेटिंग सिर्फ़ आपके फ़ोन में रहती हैं।',
+        'ऐप अपने आप सिर्फ़ एक चीज़ भेजता है: open.er-api.com से एक्सचेंज रेट का सादा अनुरोध (नीचे देखें)।',
+        'क्लोज़्ड-टेस्ट (टेस्टिंग) वर्शन में विज्ञापन नहीं हैं। रिलीज़ हुए वर्शन में Google AdMob के छोटे बैनर विज्ञापन दिखते हैं (“विज्ञापन” देखें)।'] }]],
+      ['ऐप आपके डिवाइस पर क्या सेव करता है', [{ ul: [
+        'आपकी गणना की हिस्ट्री (ऐप में साफ़ की जा सकती है)।',
+        'आपकी पसंद: भाषा, लाइट/डार्क थीम, वाइब्रेशन चालू/बंद, आख़िरी इस्तेमाल की स्क्रीन (कैलकुलेटर, यूनिट या करेंसी), आख़िरी यूनिट श्रेणी और यूनिट जोड़ियाँ, और आख़िरी करेंसी जोड़ी।',
+        'आख़िरी डाउनलोड की गई एक्सचेंज-रेट तालिका और उसके अपडेट का समय, ताकि ऑफलाइन भी करेंसी बदली जा सके। ऐप में दरों का एक बिल्ट-इन स्नैपशॉट भी है।',
+        'आपने किस वर्शन का “नया क्या है” नोट देख लिया है, और अपडेट रिमाइंडर को आपने आख़िरी बार कब टाला था।'] },
+        'यह सब आपके फ़ोन में ऐप के निजी स्टोरेज में रहता है। इस ऐप का Android क्लाउड बैकअप बंद है, और ऐप हटाने पर यह सब हट जाता है।']],
+      ['ऐप कौन-सी अनुमतियाँ माँगता है', [{ ul: [
+        'इंटरनेट और नेटवर्क स्थिति: सिर्फ़ एक्सचेंज रेट लाने, ऐप का नया वर्शन देखने और लिंक (जैसे यह नीति) ब्राउज़र में खोलने के लिए।',
+        'वाइब्रेशन: कीज़ दबाने पर हल्की थरथराहट, जिसे मेन्यू से बंद किया जा सकता है।',
+        'ऐप लोकेशन, कैमरा, माइक्रोफ़ोन, कॉन्टैक्ट, फ़ोटो या स्टोरेज की अनुमति नहीं माँगता।'] }]],
+      ['आपके डिवाइस से क्या बाहर जाता है, और कहाँ', [{ ul: [
+        'एक्सचेंज रेट: जब आप करेंसी स्क्रीन खोलते हैं और सेव की हुई दरें 6 घंटे से पुरानी हों, तो ऐप open.er-api.com (Exchange Rate API, फ़्री प्लान) से सार्वजनिक दर तालिका डाउनलोड करता है। यह सामान्य वेब अनुरोध है: किसी भी वेबसाइट की तरह सर्वर को आपका IP पता और अनुरोध दिखता ही है, पर ऐप कोई खाता, डिवाइस ID या निजी डेटा नहीं भेजता और हमें यह मिलता नहीं। शर्तें exchangerate-api.com पर देखें। ऑफलाइन होने पर ऐप सेव की हुई या बिल्ट-इन दरें ही इस्तेमाल करता रहता है।',
+        'अपडेट जाँच: अगर आपने ऐप Google Play से इंस्टॉल किया है, तो ऐप Google Play (इन-ऐप अपडेट) से पूछ सकता है कि नया वर्शन है या नहीं। इसे आपके फ़ोन का Google Play, Google की गोपनीयता नीति के तहत सँभालता है। अगर हम चालू करें, तो ऐप इस वेबसाइट से एक छोटी सार्वजनिक फ़ाइल (नवीनतम वर्शन नंबर) भी पढ़ सकता है।',
+        'फ़ीडबैक: “फ़ीडबैक भेजें” आपका अपना ईमेल ऐप खोलता है, जिसमें ' + EMAIL + ' के लिए पहले से लिखा संदेश होता है। ईमेल ऐप में भेजें दबाए बिना कुछ नहीं जाता, और अपना पता या डिवाइस जानकारी जोड़ना आपकी मर्ज़ी है।',
+        'लिंक: गोपनीयता नीति और Google Play के लिंक ब्राउज़र या Play Store में खुलते हैं।'] }]],
+      ['विज्ञापन', [
+        'AA Calc के क्लोज़्ड-टेस्ट (टेस्टिंग) वर्शन में विज्ञापन कोड नहीं है और कोई विज्ञापन नहीं दिखता।',
+        'रिलीज़ हुए वर्शन में सिर्फ़ बैनर विज्ञापन दिखते हैं, जो Google AdMob (Google LLC) देता है। फ़ुल-स्क्रीन, ऐप-ओपन या रिवॉर्ड विज्ञापन नहीं हैं, और कैलकुलेटर की कीपैड स्क्रीन पर बैनर नहीं आता।',
+        'विज्ञापन दिखाने और मापने के लिए Google AdMob, Google की नीतियों के तहत आपकी Android विज्ञापन ID, IP पता, डिवाइस और ऐप जानकारी और अनुमानित क्षेत्र इकट्ठा और इस्तेमाल कर सकता है: ' + ADS + ' हमें यह डेटा न मिलता है, न दिखता है, और हम खुद विज्ञापनदाताओं से कोई निजी डेटा साझा नहीं करते।',
+        'आप Android सेटिंग (सेटिंग > Google > विज्ञापन) में विज्ञापन ID रीसेट कर सकते हैं या पर्सनलाइज़्ड विज्ञापन बंद कर सकते हैं, और कुछ क्षेत्रों में ऐप या Google पहले सहमति संदेश दिखा सकता है।']],
+      ['बच्चे', ['AA Calc आम उपयोगकर्ताओं के लिए औज़ार है और 13 साल से कम उम्र के बच्चों के लिए नहीं बना है। हम जानबूझकर किसी का भी, बच्चों समेत, निजी डेटा इकट्ठा नहीं करते।']],
+      ['आपके विकल्प', [{ ul: [
+        'हटाने के लिए कोई खाता नहीं है और हमारे पास आपका कोई निजी डेटा नहीं है। ऐप ने जो सेव किया है उसे हटाने के लिए ऐप में हिस्ट्री साफ़ करें या ऐप हटा दें।',
+        'आप कभी भी ऐप को एयरप्लेन मोड में चला सकते हैं।'] }]],
+      ['सुरक्षा', ['चूँकि ऐप सब कुछ सिर्फ़ आपके फ़ोन में रखता है और कुछ इकट्ठा नहीं करता, मुख्य सुरक्षा आपके फ़ोन का अपना लॉक स्क्रीन और एन्क्रिप्शन है। वेब ट्रैफ़िक (दरें, लिंक, यह वेबसाइट) HTTPS इस्तेमाल करता है।']],
+      ['नीति में बदलाव', ['अगर कुछ बदलता है (जैसे कोई नया फ़ीचर), तो हम यह पेज और इसकी तारीख़ अपडेट करेंगे। नवीनतम वर्शन हमेशा ' + SITE + '/privacy.html पर है।']],
+      ['संपर्क', [`गोपनीयता से जुड़े सवाल: ${EMAIL} (${OPERATOR})`]],
+    ],
+  };
+  return { UI, PRIVACY };
+}
