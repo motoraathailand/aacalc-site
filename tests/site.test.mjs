@@ -48,7 +48,10 @@ ok('optInLive=false (config) renders the pending state', cfg.optInLive === false
 const { chromium } = createRequire('/workspace/fieldreport/package.json')('playwright-core');
 const MIME = { html: 'text/html', js: 'text/javascript', css: 'text/css', svg: 'image/svg+xml', webp: 'image/webp', jpg: 'image/jpeg', png: 'image/png', json: 'application/json', woff2: 'font/woff2', txt: 'text/plain', xml: 'application/xml', mp4: 'video/mp4', webmanifest: 'application/manifest+json' };
 const serve = (root) => http.createServer((q, r) => { let p = decodeURIComponent(q.url.split('?')[0]); if (!p.startsWith('/aacalc-site/')) { r.writeHead(404); return r.end(); } p = p.slice('/aacalc-site'.length); if (p.endsWith('/')) p += 'index.html'; const f = path.join(root, p); if (!f.startsWith(root) || !fs.existsSync(f)) { r.writeHead(404); return r.end('nf'); } const buf = fs.readFileSync(f), type = MIME[f.split('.').pop()] || 'application/octet-stream', rg = /bytes=(\d*)-(\d*)/.exec(q.headers.range || ''); if (rg) { const a = +rg[1] || 0, e = rg[2] ? +rg[2] : buf.length - 1; r.writeHead(206, { 'content-type': type, 'accept-ranges': 'bytes', 'content-range': `bytes ${a}-${e}/${buf.length}`, 'content-length': e - a + 1 }); return r.end(buf.subarray(a, e + 1)); } r.writeHead(200, { 'content-type': type, 'accept-ranges': 'bytes', 'content-length': buf.length }); r.end(buf); }).listen(0, '127.0.0.1');
-const server = serve(DOCS), server2 = serve(LIVE_DIR);
+// pending checks use a forced optInLive=false temp build, so they hold whichever state config/site.json is in
+const PEND_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'aacalc-pend-'));
+execFileSync('node', [path.join(ROOT, 'scripts/build.mjs')], { env: { ...process.env, SITE_OUT: PEND_DIR, OPTIN_LIVE: '0' }, stdio: 'pipe' });
+const server = serve(PEND_DIR), server2 = serve(LIVE_DIR);
 await Promise.all([server, server2].map((x) => new Promise((r) => x.on('listening', r))));
 const BASE = `http://127.0.0.1:${server.address().port}/aacalc-site/`, BASE2 = `http://127.0.0.1:${server2.address().port}/aacalc-site/`;
 const b = await chromium.launch({ executablePath: '/usr/bin/google-chrome', args: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required'], headless: true });
