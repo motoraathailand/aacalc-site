@@ -60,7 +60,7 @@ export const INTRO = {
     fq7: 'Which phones and countries?', fa7: 'Android phones and tablets with Android 7 or newer and Google Play, in every country.',
     fq8: 'Which languages?', fa8: 'Thai, English, Korean, Chinese and Hindi. AA Calc follows your phone language and falls back to English. The globe button is on every screen.',
     joinH: 'Want to try AA Calc?', joinD: 'Join the test on Google Play in 5 easy steps. Testers from every country are welcome.', joinB: 'Get the app (join the test)',
-    privacy: 'Privacy policy', contact: 'Contact', made: 'AA Calc · by Pornnarai Tananchai'
+    allApps: 'See all apps', privacy: 'Privacy policy', contact: 'Contact', made: 'AA Calc · by Pornnarai Tananchai'
   },
   th: {
     langLabel: 'ภาษา', skip: 'ข้ามไปที่เนื้อหา', home: 'หน้าแรก AA Calc',
@@ -121,7 +121,7 @@ export const INTRO = {
     fq7: 'ใช้กับมือถือรุ่นไหน ประเทศไหนได้บ้าง', fa7: 'มือถือและแท็บเล็ต Android เวอร์ชัน 7 ขึ้นไปที่มี Google Play ใช้ได้ทุกประเทศ',
     fq8: 'รองรับภาษาอะไรบ้าง', fa8: 'ไทย อังกฤษ เกาหลี จีน และฮินดี AA Calc ใช้ภาษาตามมือถือ ถ้าไม่รองรับจะใช้อังกฤษ และมีปุ่มรูปโลกในทุกหน้าจอ',
     joinH: 'อยากลองใช้ AA Calc ไหม', joinD: 'ร่วมทดสอบบน Google Play ได้ใน 5 ขั้นตอนง่าย ๆ ยินดีรับผู้ทดสอบจากทุกประเทศ', joinB: 'รับแอป (ร่วมทดสอบ)',
-    privacy: 'นโยบายความเป็นส่วนตัว', contact: 'ติดต่อ', made: 'AA Calc · โดย Pornnarai Tananchai'
+    allApps: 'ดูแอปทั้งหมด', privacy: 'นโยบายความเป็นส่วนตัว', contact: 'ติดต่อ', made: 'AA Calc · โดย Pornnarai Tananchai'
   },
   ko: {
     langLabel: '언어', skip: '본문으로 건너뛰기', home: 'AA Calc 홈',
@@ -182,7 +182,7 @@ export const INTRO = {
     fq7: '어떤 폰과 나라에서 되나요?', fa7: 'Android 7 이상에 Google Play가 있는 휴대폰과 태블릿이면 모든 나라에서 돼요.',
     fq8: '어떤 언어를 지원하나요?', fa8: '태국어, 영어, 한국어, 중국어, 힌디어예요. 폰 언어를 따르고 지원하지 않으면 영어로 보여요. 지구본 버튼은 모든 화면에 있어요.',
     joinH: 'AA Calc을 써 볼래요?', joinD: 'Google Play 테스트에 쉬운 5단계로 참여하세요. 모든 나라의 테스터를 환영해요.', joinB: '앱 받기 (테스트 참여)',
-    privacy: '개인정보 처리방침', contact: '문의', made: 'AA Calc · Pornnarai Tananchai 제작'
+    allApps: '모든 앱 보기', privacy: '개인정보 처리방침', contact: '문의', made: 'AA Calc · Pornnarai Tananchai 제작'
   },
   zh: {
     langLabel: '语言', skip: '跳到内容', home: 'AA Calc 首页',
@@ -243,7 +243,7 @@ export const INTRO = {
     fq7: '哪些手机和国家可以用？', fa7: '装有 Android 7 或更高版本并带 Google Play 的手机和平板，任何国家都可以。',
     fq8: '支持哪些语言？', fa8: '泰语、英语、韩语、中文和印地语。AA Calc 跟随手机语言，不支持时用英语，每个页面都有地球按钮。',
     joinH: '想试试 AA Calc 吗？', joinD: '5 个简单步骤即可加入 Google Play 测试，欢迎任何国家的测试员。', joinB: '获取应用（加入测试）',
-    privacy: '隐私政策', contact: '联系', made: 'AA Calc · Pornnarai Tananchai 出品'
+    allApps: '查看全部应用', privacy: '隐私政策', contact: '联系', made: 'AA Calc · Pornnarai Tananchai 出品'
   },
   hi: {
     langLabel: 'भाषा', skip: 'सामग्री पर जाएँ', home: 'AA Calc होम',
@@ -304,7 +304,7 @@ export const INTRO = {
     fq7: 'कौन-से फ़ोन और देश?', fa7: 'Android 7 या नए वर्शन और Google Play वाले फ़ोन और टैबलेट, हर देश में।',
     fq8: 'कौन-सी भाषाएँ?', fa8: 'थाई, अंग्रेज़ी, कोरियाई, चीनी और हिंदी। AA Calc फ़ोन की भाषा के अनुसार चलता है और न मिलने पर अंग्रेज़ी दिखाता है। ग्लोब बटन हर स्क्रीन पर है।',
     joinH: 'AA Calc आज़माना चाहते हैं?', joinD: 'Google Play टेस्ट में 5 आसान कदमों में शामिल हों। हर देश के टेस्टर का स्वागत है।', joinB: 'ऐप पाएँ (टेस्ट में शामिल हों)',
-    privacy: 'गोपनीयता नीति', contact: 'संपर्क', made: 'AA Calc · Pornnarai Tananchai द्वारा'
+    allApps: 'सभी ऐप देखें', privacy: 'गोपनीयता नीति', contact: 'संपर्क', made: 'AA Calc · Pornnarai Tananchai द्वारा'
   }
 };
 
@@ -352,7 +352,7 @@ export const JOIN = {
     shareH: 'Invite others to try it', share: 'Share link', copied: 'Link copied', copyFail: 'Couldn’t copy. Try long-pressing the link',
     shareTitle: 'Join the AA Calc test', shareText: 'Try the AA Calc offline calculator, unit and currency converter on Android with me. 5 easy steps (use the same Google account as your phone).',
     qrH: 'Open on your phone', qrD: 'Reading this on a computer? Scan the QR code with your Android phone.', qrAlt: 'QR code for this page',
-    privacy: 'Privacy policy', contact: 'Contact', back: 'AA Calc home',
+    allApps: 'See all apps', privacy: 'Privacy policy', contact: 'Contact', back: 'AA Calc home',
     iabT: 'Open this page in Chrome first', iabD: 'You are in an in-app browser (Facebook, LINE, Instagram…). Google Groups and Google Play often fail there. Tap the button, or tap the three dots and choose “Open in Chrome”.', iabB: 'Open in Chrome', iabC: 'Copy link', iabOk: 'Link copied. Paste it in Chrome.'
   },
   th: {
@@ -398,7 +398,7 @@ export const JOIN = {
     shareH: 'ชวนคนอื่นมาลองด้วย', share: 'แชร์ลิงก์', copied: 'คัดลอกลิงก์แล้ว', copyFail: 'คัดลอกไม่สำเร็จ ลองกดค้างที่ลิงก์',
     shareTitle: 'ร่วมทดสอบ AA Calc', shareText: 'มาลองเครื่องคิดเลขออฟไลน์ AA Calc พร้อมแปลงหน่วยและสกุลเงินบน Android ด้วยกัน 5 ขั้นตอนง่าย ๆ (ใช้บัญชี Google เดียวกับมือถือ)',
     qrH: 'เปิดบนมือถือของคุณ', qrD: 'เปิดหน้านี้อยู่บนคอมพิวเตอร์ใช่ไหม สแกน QR ด้วยมือถือ Android ได้เลย', qrAlt: 'QR code ของหน้านี้',
-    privacy: 'นโยบายความเป็นส่วนตัว', contact: 'ติดต่อ', back: 'หน้าแรก AA Calc',
+    allApps: 'ดูแอปทั้งหมด', privacy: 'นโยบายความเป็นส่วนตัว', contact: 'ติดต่อ', back: 'หน้าแรก AA Calc',
     iabT: 'เปิดหน้านี้ใน Chrome ก่อน', iabD: 'ตอนนี้คุณเปิดอยู่ในเบราว์เซอร์ของแอป (Facebook, LINE, Instagram…) ซึ่ง Google Groups และ Google Play มักใช้ไม่ได้ กดปุ่มด้านล่าง หรือกดจุดสามจุดมุมบนแล้วเลือก “เปิดใน Chrome”', iabB: 'เปิดใน Chrome', iabC: 'คัดลอกลิงก์', iabOk: 'คัดลอกลิงก์แล้ว นำไปวางใน Chrome'
   },
   ko: {
@@ -444,7 +444,7 @@ export const JOIN = {
     shareH: '다른 사람도 초대하기', share: '링크 공유', copied: '링크를 복사했어요', copyFail: '복사하지 못했어요. 링크를 길게 눌러 보세요',
     shareTitle: 'AA Calc 테스트 참여', shareText: '같이 오프라인 계산기 AA Calc(단위·환율 변환 포함)을 Android에서 써 봐요. 쉬운 5단계예요 (폰과 같은 Google 계정으로).',
     qrH: '폰에서 열기', qrD: '컴퓨터로 보고 있나요? Android 폰으로 QR 코드를 스캔하세요.', qrAlt: '이 페이지의 QR 코드',
-    privacy: '개인정보 처리방침', contact: '문의', back: 'AA Calc 홈',
+    allApps: '모든 앱 보기', privacy: '개인정보 처리방침', contact: '문의', back: 'AA Calc 홈',
     iabT: '먼저 Chrome에서 이 페이지를 여세요', iabD: '지금은 앱 안의 브라우저(Facebook, LINE, Instagram 등)예요. 여기서는 Google 그룹과 Google Play가 잘 안 될 때가 많아요. 아래 버튼을 누르거나, 오른쪽 위 점 세 개를 눌러 “Chrome에서 열기”를 고르세요.', iabB: 'Chrome에서 열기', iabC: '링크 복사', iabOk: '링크를 복사했어요. Chrome에 붙여 넣으세요.'
   },
   zh: {
@@ -490,7 +490,7 @@ export const JOIN = {
     shareH: '邀请其他人一起试', share: '分享链接', copied: '链接已复制', copyFail: '复制失败，请长按链接',
     shareTitle: '加入 AA Calc 测试', shareText: '一起在 Android 上试试离线计算器 AA Calc（含单位和汇率换算），只要 5 个简单步骤（使用与手机相同的 Google 账号）。',
     qrH: '在手机上打开', qrD: '正在电脑上看？用 Android 手机扫描二维码。', qrAlt: '本页二维码',
-    privacy: '隐私政策', contact: '联系', back: 'AA Calc 首页',
+    allApps: '查看全部应用', privacy: '隐私政策', contact: '联系', back: 'AA Calc 首页',
     iabT: '请先用 Chrome 打开本页', iabD: '你现在在应用内置浏览器里（Facebook、LINE、Instagram 等），Google 群组和 Google Play 在这里常常打不开。点下面的按钮，或点右上角三个点并选择“用 Chrome 打开”。', iabB: '在 Chrome 中打开', iabC: '复制链接', iabOk: '链接已复制，请粘贴到 Chrome。'
   },
   hi: {
@@ -536,7 +536,7 @@ export const JOIN = {
     shareH: 'दूसरों को भी बुलाएँ', share: 'लिंक शेयर करें', copied: 'लिंक कॉपी हो गया', copyFail: 'कॉपी नहीं हो पाया। लिंक को देर तक दबाकर देखें',
     shareTitle: 'AA Calc टेस्ट में शामिल हों', shareText: 'मेरे साथ Android पर ऑफलाइन कैलकुलेटर AA Calc (यूनिट और करेंसी कन्वर्टर समेत) आज़माएँ। बस 5 आसान कदम (फ़ोन वाला ही Google खाता इस्तेमाल करें)।',
     qrH: 'अपने फ़ोन पर खोलें', qrD: 'कंप्यूटर पर देख रहे हैं? अपने Android फ़ोन से QR कोड स्कैन करें।', qrAlt: 'इस पेज का QR कोड',
-    privacy: 'गोपनीयता नीति', contact: 'संपर्क', back: 'AA Calc होम',
+    allApps: 'सभी ऐप देखें', privacy: 'गोपनीयता नीति', contact: 'संपर्क', back: 'AA Calc होम',
     iabT: 'पहले इस पेज को Chrome में खोलें', iabD: 'आप अभी ऐप के अंदर वाले ब्राउज़र (Facebook, LINE, Instagram…) में हैं। वहाँ Google Groups और Google Play अक्सर नहीं चलते। नीचे का बटन दबाएँ, या तीन बिंदु दबाकर “Chrome में खोलें” चुनें।', iabB: 'Chrome में खोलें', iabC: 'लिंक कॉपी करें', iabOk: 'लिंक कॉपी हो गया। इसे Chrome में पेस्ट करें।'
   }
 };
