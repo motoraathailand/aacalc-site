@@ -160,8 +160,13 @@ html[data-lang=th] .legal #s-th,html[data-lang=en] .legal #s-en,html[data-lang=k
 .panel{padding:18px;border-radius:20px;border:1.5px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
 .panel h2{font-size:18px}
 .panel .row{margin-top:12px}
+/* AA common rule 2026-11-02: invite/share + open-on-device (QR) cards are fully center-aligned */
+.center-card{text-align:center;display:flex;flex-direction:column;align-items:center}
+.center-card>*{max-width:100%}
+.center-card .row{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;width:100%}
+.center-card img{display:block}
 .note{color:var(--muted);font-size:14.5px;margin-top:8px;min-height:1.2em}
-.qr img{width:168px;height:168px;margin:12px 0 2px;border-radius:12px;background:#fff}
+.qr img{width:168px;height:168px;margin:12px auto 2px;border-radius:12px;background:#fff}
 .faq{margin-top:28px}.faq h2{font-size:22px;margin-bottom:12px}
 .faqs{display:grid;gap:8px}
 details{border:1.5px solid var(--line);border-radius:16px;background:var(--surface);overflow:hidden}
