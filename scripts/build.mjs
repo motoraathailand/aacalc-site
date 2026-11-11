@@ -178,7 +178,6 @@ const joinBody = `${HEADER(J)}
     <div class="panel center-card" id="shareCard"><h2 data-t="shareH">${esc(J.en.shareH)}</h2><div class="row"><button class="btn" id="share" type="button" data-press data-ripple><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg><span data-t="share">${esc(J.en.share)}</span></button></div><p class="note" id="shareNote" aria-live="polite"></p></div>
     <div class="panel qr center-card" id="qrCard"><h2 data-t="qrH">${esc(J.en.qrH)}</h2><p class="note" data-t="qrD">${esc(J.en.qrD)}</p><img src="assets/join-qr.svg" width="168" height="168" loading="lazy" alt="${esc(J.en.qrAlt)}" data-alt="qrAlt"></div>
   </div>
-  <div class="faq"><h2 data-t="faqH">${esc(J.en.faqH)}</h2><div class="faqs">${[1, 2, 3, 4, 5].map((n) => `<details><summary data-t="q${n}">${esc(J.en['q' + n])}</summary><p data-t="a${n}">${esc(J.en['a' + n])}</p></details>`).join('')}</div></div>
 </section>
 </main>
 ${FOOTER(J, '')}`;

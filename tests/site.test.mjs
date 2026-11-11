@@ -19,6 +19,7 @@ ok('no "copy / clone / inspired by" design wording', !/\b(clone|knock-?off|inspi
 ok('no old per-app group names', !/aaai-testers|nammanthuk-testers|moffee-testers|cafemenu-testers|suayshot-testers/.test(all));
 ok('config: shared tester group only', cfg.groupEmail === 'motoraa-testers@googlegroups.com' && cfg.groupUrl === 'https://groups.google.com/g/motoraa-testers');
 const idx = read('index.html'), join = read('join.html'), priv = read('privacy.html');
+ok('join: no FAQ section in any language (owner rule 2026-11-11: no FAQ on tester/join pages)', !/faqH|data-t=\"q\\d|자주 묻는|คำถามที่พบบ่อย|常见问题|अक्सर पूछे|FAQPage|#faq/i.test(join) && L.every((l) => !Object.keys(JOIN[l]).some((k) => /^(faqH|q\d+|a\d+)$/.test(k))));
 const ctas = [...idx.matchAll(/<a class="btn"[^>]*href="([^"]+)"/g)].map((m) => m[1]);
 ok('intro: every download/join button goes to join.html (not Play, not an APK)', ctas.length >= 2 && ctas.filter((h) => h === 'join.html').length >= 2 && !/play\.google\.com|\.apk/.test(idx), JSON.stringify(ctas));
 ok('join: step 1 = shared group', join.includes(`href="${cfg.groupUrl}"`));
